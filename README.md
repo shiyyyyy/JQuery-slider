@@ -1,2 +1,2 @@
-# JQuery-slider
-Jquery呼吸轮播图
+# jQuery-slider
+jQuery呼吸轮播图

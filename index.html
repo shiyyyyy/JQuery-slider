@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .swiper {
+            width: 600px;
+            height: 400px;
+            margin: 100px auto;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+
+        .swiper ul {
+            width: 600px;
+            height: 100%;
+            position: absolute;
+            left: 0px;
+        }
+
+        .swiper ul li {
+            width: 600px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: none;
+        }
+
+        .swiper ul li a {
+            width: 600px;
+        }
+
+        .swiper ul img {
+            width: 600px;
+            height: 400px;
+        }
+
+        /* 小按钮 */
+
+        .swiper .swiperCtrlCon {
+            width: 140px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            margin-left: -70px;
+            background-color: hsla(0, 0%, 100%, .4);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .swiper .swiperCtrlCon i {
+            display: inline-block;
+            margin: 0px 2px;
+            width: 12px;
+            height: 12px;
+            border-radius: 100%;
+            background: white;
+        }
+
+        /* 改变的样式 */
+
+        .swiper .swiperCtrlCon .current {
+            background-color: #db192a;
+        }
+
+        .swiper .swiperCtrl .active {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+
+        /* 左右 按钮 */
+
+        .swiper .swiperCtrl span {
+            display: none;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.3);
+            position: absolute;
+            top: 50%;
+            margin-top: -20px;
+            text-align: center;
+        }
+
+        .swiper:hover .swiperCtrl span {
+            display: block;
+        }
+
+        .swiper .swiperCtrl .swiperCtrlPrev {
+            left: 20px;
+        }
+
+        .swiper .swiperCtrl .swiperCtrlNext {
+            right: 20px;
+        }
+
+        .swiper .swiperCtrl span img {
+            height: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="swiper" id="box">
+        <ul id="ul">
+            <li style="display:block">
+                <a href="">
+                    <img src="images/0.jpg" alt="">
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <img src="images/1.jpg" alt="">
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <img src="images/2.jpg" alt="">
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <img src="images/3.jpg" alt="">
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <img src="images/4.jpg" alt="">
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <img src="images/5.jpg" alt="">
+                </a>
+            </li>
+        </ul>
+        <div class="swiperCtrlCon">
+            <i class="current"></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+        </div>
+        <div class="swiperCtrl">
+            <span class="swiperCtrlPrev">
+                <img src="images/left.png" alt="">
+            </span>
+            <span class="swiperCtrlNext">
+                <img src="images/right.png" alt="">
+            </span>
+        </div>
+    </div>
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function () {
+            var $swiperBox = $("#box");         // 大盒子
+            var $lis = $swiperBox.children("ul").children();  // 每个小图片
+            var $ctrlCon = $(".swiperCtrlCon").children("i");     // 每个小按钮
+            var $arrow = $(".swiperCtrl");           // 箭头之父
+            var $prev = $(".swiperCtrlPrev");       // 左箭头
+            var $next = $(".swiperCtrlNext");       // 右箭头
+            
+            var num = 0;
+            var flag = true;
+
+            // 右 按钮
+            // $arrow.on({
+            //     mouseover: function () {
+            //         $(this).index();
+            //         $next.eq().addClass("active");
+            //         console.log($(this))
+            //     },
+            //     mouseout:function(){
+            //         $next.removeClass("active");
+            //     }
+            // })
+
+            $next.mouseover(function () {
+                $next.addClass("active");
+                $next.mouseout(function () {
+                    $next.removeClass("active");
+                })
+            })
+            $prev.mouseover(function () {
+                $prev.addClass("active");
+                $prev.mouseout(function () {
+                    $prev.removeClass("active");
+                })
+            })
+
+            $next.click(function () {
+                if (flag) {
+                    flag = false;
+                    $lis.eq(num).fadeOut(1000);
+                    ++num > 5 ? num = 0 : num;
+                    $ctrlCon.eq(num).addClass("current").siblings("i").removeClass("current");
+                    $lis.eq(num).fadeIn(1000, function () { flag = true; });
+                } else {
+                    return;
+                }
+            })
+            
+            // 左 箭头
+            $prev.on("click", function () {
+                $lis.eq(num).fadeOut(1000);
+                --num < 0 ? num = 5 : num;
+                $ctrlCon.eq(num).addClass("current").siblings("i").removeClass("current");
+                $lis.eq(num).fadeIn(1000);
+            })
+
+            // 小按钮
+            $ctrlCon.on("mouseover", function (event) {
+                $lis.eq(num).fadeOut(1000);
+
+                // 移除 旧的 的样式
+                $ctrlCon.eq(num).removeClass("current");
+
+                num = $(this).index();
+                $lis.eq(num).fadeIn(1000);
+                // 改变当前圆点
+                $ctrlCon.eq(num).addClass("current");
+            })
+        })
+    </script>
+</body>
+
+</html>
